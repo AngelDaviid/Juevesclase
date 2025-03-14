@@ -60,6 +60,24 @@ router.put('/:id', async (req, res) => {
     }
 });
 
+//eliminar cliente 
+
+router.delete('/:id', async (req, res) => {
+    try{
+        const { id } = req.params;
+        const [ result ] = await pool.execute(
+            'DELETE FROM cliente WHERE id_clientes = ?',
+            [id]
+        );
+        if(result.affectedRows > 0){
+            res.json({message: 'Cliente eliminado'});
+        } else {
+            res.status(404).json({message: 'Cliente no encontrado '});
+        }
+    } catch (error){
+        res.status(500).send(error);
+    }
+});
 
 
 
